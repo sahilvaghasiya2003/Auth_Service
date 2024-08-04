@@ -1,20 +1,19 @@
 const { User } = require("../models/index");
-const bcrypt = require('bcrypt')
+const bcrypt = require("bcrypt");
 class UserRepository {
-
   async create(data) {
     try {
       const user = await User.create(data);
       return user;
     } catch (error) {
       console.log("wrong at repository layer");
-      throw {error}
+      throw { error };
     }
   }
-  
+
   async delete(userId) {
     try {
-       await User.destroy({
+      await User.destroy({
         where: {
           id: userId,
         },
@@ -22,31 +21,35 @@ class UserRepository {
       return true;
     } catch (error) {
       console.log("wrong at repository layer");
-      throw {error}
-
+      throw { error };
     }
   }
 
-  async getById(userId){
+  async getById(userId) {
     try {
-      const user  =await User.findByPk(userId, {
-        attributes: ['email','id']
+      const user = await User.findByPk(userId, {
+        attributes: ["email", "id"],
       });
       return user;
     } catch (error) {
       console.log("wrong at repository layer");
-      throw {error}
+      throw { error };
     }
   }
 
-   checkPassword(userInputPlainPassword,encryptedPassword){
+  async getByEmail(userEmail) {
     try {
-      return bcrypt.compareSync(userInputPlainPassword,encryptedPassword);
+      const user = await User.findOne({
+        where: {
+          email: userEmail
+        },
+      });
+      return user;
     } catch (error) {
-      console.log("somthinf=g went wrong in password comparision")
+      console.log("wrong at repository layer");
+      throw { error };
     }
   }
-
 }
 
 module.exports = UserRepository;
