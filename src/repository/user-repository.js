@@ -1,4 +1,5 @@
-const { User } = require("../models/index");
+const { where } = require("sequelize");
+const { User,Role } = require("../models/index");
 const bcrypt = require("bcrypt");
 class UserRepository {
   async create(data) {
@@ -50,6 +51,25 @@ class UserRepository {
       throw { error };
     }
   }
+
+  async isAdmin(userId){
+    try {
+      const user = await User.findByPk(userId);
+      const adminRole = await Role.findOne({
+        where:{
+          name: 'ADMIN'
+        }
+      });
+      return user.hasRole(adminRole)
+    
+    } catch (error) {
+      console.log("wrong in  token validation service layer");
+      throw { error };
+    }
+  }
+
+
+
 }
 
 module.exports = UserRepository;

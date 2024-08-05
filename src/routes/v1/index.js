@@ -6,6 +6,7 @@ const router = express.Router();
 router.post("/signup", AuthRequestValidator.validateUserAuth, userController.create);
 router.post("/signin", AuthRequestValidator.validateUserAuth, userController.signIn);
 router.get('/isAuthenticated',userController.isAuthenticated)
+router.get('/isAdmin',AuthRequestValidator.validateIsAdminRequest,userController.isAdmin)
 // router.get('/dummy',(req,res)=>{
 //     return res.status(200).json({message : ok})
 // })

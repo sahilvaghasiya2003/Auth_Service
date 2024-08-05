@@ -65,4 +65,23 @@ const signIn = async(req, res) => {
     }
   }
 
-module.exports = { create ,signIn,isAuthenticated};
+  const isAdmin = async(req,res)=>{
+    try {
+      const response = await userService.isAdmin(req.body.id)
+      return res.status(200).json({
+        data: response,
+        success: true,
+        message: "Successfully fetched weather user is admin or not",
+        err: {},
+      });
+    } catch (error) {
+      return res.status(500).json({
+        data: {},
+        success: false,
+        message: "Something went wrong",
+        err: error,
+      });
+    }
+  }
+
+module.exports = { create ,signIn,isAuthenticated,isAdmin};

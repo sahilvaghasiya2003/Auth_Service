@@ -86,6 +86,19 @@ class UserService {
       console.log("somthing went wrong in password comparision");
     }
   }
+
+  isAdmin(userId){
+    try {
+      return this.userRepository.isAdmin(userId);
+
+    } catch (error) {
+      console.log("wrong in  token validation service layer");
+      throw { error };
+    }
+  }
+
+
+
 }
 
 module.exports = UserService;
